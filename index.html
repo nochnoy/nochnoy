@@ -1,0 +1,134 @@
+<!-- Copyright (c) Petriychuk Roman nochnoy.ru@yandex.ru -->
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Ночной</title>
+		<style>
+			html {
+				height: 100%;
+			}
+			body {
+				height: 100%;
+				background-color: white;
+				overflow: hidden;
+			}
+
+			.container {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				cursor: pointer;
+			}
+		</style>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script>
+			"use strict";
+			$(function() {
+				for (var i = 0; i < stack.length; i++) {
+					var item = stack[i];
+					if (!item.type) {
+						var img = new Image();
+						img.src = stack[i].id + '.jpg';
+					}
+				}
+			});
+			
+			var stack = [
+				{id: 'menu'},
+				{id: 'crash'},
+				{id: 'budka'},
+				{id: 'ostrov'},
+				{id: 'ozero'},
+				{id: 'bashnia'},
+				{id: 'zvezdochet'},
+				{id: 'tank'},
+				{id: 'doodles'},
+				{id: 'topor'},
+				{id: 'dinozavr'},
+				{id: 'explosions'},
+				{id: 'maria'},
+				{id: 'volcano'},
+				{id: 'map'},
+				{id: 'map2'},
+				{id: 'dvor'},
+				{id: 'dyriabinsk'},
+				{id: 'veter', type: 'html'},
+				{id: 'malchik'},
+				{id: 'faces'},
+				{id: 'waits'},
+				{id: 'alisa'},
+				{id: 'bridge'},
+				{id: 'musorka'},
+				{id: 'shmaiser'},
+				{id: 'computer'},
+				{id: 'man'},
+				{id: 'barricade'},
+				{id: 'stairs'},
+				{id: 'lift'},
+				{id: 'king'},
+				{id: 'artem', type: 'html'},
+				{id: 'kitaec'},
+				{id: 'tree_raw'},
+				{id: 'tree', bg:'black'},
+				{id: 'motodom_raw'},
+				{id: 'motodom', bg:'#333333'},
+				{id: 'swamp_raw'},
+				{id: 'swamp', bg:'black'},
+				{id: 'about', type:'html'},
+				{id: 'ptichki'}
+			];
+
+			var nextStack = [];
+			var firstImageId = '2';
+			var pos = -1;
+
+			document.clickLock = false;
+
+			function onClick() {
+				if (!document.clickLock) {
+					showItem(stack[0]);
+					nextStack.push(stack.shift());
+					if(stack.length == 0) {
+						stack = nextStack;
+						nextStack = [];
+					}
+				}
+			}
+
+			function showItem(item) {
+				$('.container').empty();
+				switch (item.type) {
+					case 'html':
+						document.clickLock = true;
+						$.ajax({
+						url: item.id + '.txt?' + (new Date()),
+						success: function( result ) {
+							$('.container').html(result);
+							setTimeout(function(){
+								document.clickLock = false;
+							}, 1000);
+						}
+						});
+						break;
+
+					default:
+						$('.container').html('<img id="image" src="' + item.id + '.jpg">');
+				}
+				$('body').css('backgroundColor', item.bg ? item.bg : 'white');
+			}
+
+		</script>
+	</head>
+
+	<body onclick="onClick()">
+		<div class="container">
+			<img id="image" src="ptichki.jpg">
+		</div>
+	</body>
+</html>

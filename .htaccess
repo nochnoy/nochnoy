@@ -1,0 +1,4 @@
+php_flag display_errors 1
+php_value error_reporting 2047
+
+AddDefaultCharset UTF-8
